@@ -1,18 +1,21 @@
 #include "bits/stdc++.h"
 using namespace std;
+#define RAYA "------------------------"
 
 const int N = 1e7;
-int cont = 0;
+int contcomp = 0;
+int contnodos;
 bool visited[N];
-vector<int> adj[N];
+vector<int> adjacency_list[N];
 
 void dfs(int node)
 {
     // preorder
+    contnodos++; //cuenta el numero de nodos en el componente
     visited[node] = 1; // se coloca que fue visitado el booleano con index de un nodo
 
     // inorder
-    for (int i : adj[node]) // se recorre todo los vecinos del nodo que esta en el index del vector
+    for (int i : adjacency_list[node]) // se recorre todo los vecinos del nodo que esta en el index del vector
     {
         if (!visited[i]) // si no esta visitado entra a la funcion dfs para la recursividad
         {
@@ -30,9 +33,12 @@ void findcomponent(int min, int max)
     {
         if (!visited[i])
         {
-            cont++; // cuenta los componentes
-            cout << "Componente: " << cont << endl;
+            contnodos=0;
+            contcomp++; // cuenta los componentes
+            cout << "Numero de omponents: " << contcomp << endl;
             dfs(i);
+            cout << endl <<"Numero de nodos en el componente: " << contnodos << endl;
+            cout<<RAYA;
             cout << endl;
         }
     }
@@ -51,8 +57,8 @@ int main()
 
     while (cin >> x >> y) // la entrada son dos nodos que son vecinos
     {
-        adj[x].push_back(y);
-        adj[y].push_back(x);
+        adjacency_list[x].push_back(y);
+        adjacency_list[y].push_back(x);
     }
 
     findcomponent(min, max);
